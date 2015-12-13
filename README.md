@@ -1,10 +1,6 @@
-# budget
+# Pecunia II
 
-A simple Budget Manager
-
-# Overview
-
-# Usage
+A simple web-based Budget Manager written in Common Lisp.
 
 # License
 

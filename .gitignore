@@ -6,4 +6,5 @@
 *.x86f
 *~
 .#*
+.sass-cache/
 docs/build/
