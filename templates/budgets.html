@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="panel panel-default">
+  <div class="panel-heading user-brief">
+    <h1>
+      Budgets
+    </h1>
+    <form role="form" action="/signout">
+      <button type="submit" class="btn btn-link">
+        logout ({{ username }})
+      </button>
+    </form>
+  </div>
+  <div class="panel-body">
+
+   <form role="form" action="/add-budget" method="post">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-8">
+              New Budget
+          </div>
+          <div class="col-md-4" align="right">
+            <button type="submit" class="btn btn-link">
+                Add
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="budget-title" class="sr-only">
+                  Budget Title
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="budget-title"
+                       name="title"
+                       placeholder="Title">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="budget-descr" class="sr-only">
+                  Budget Description
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="budget-descr"
+                       name="descr"
+                       placeholder="Description">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    {% if budgets %}
+
+    <div id="show-budgets">
+
+      {% for bdgout in budgets %}
+
+      <div class="media budget">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-lg-10">
+                <div class="row-lg-1" align="left">
+                  <font size=6>
+                    {{ bdgout.bdg.title }}
+                  </font>
+                </div>
+                <div class="row-lg-1">
+                  {{ bdgout.bdg.descr }}
+                </div>
+              </div>
+              <div class="col-lg-2" align="right">
+                <font size=9>
+                  {{ bdgout.balance }} €
+                </font>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-6">
+               <div class="panel panel-default">
+                 <div class="panel-heading">
+                   <font size=6>
+                     Initial entries
+                   </font>
+                 </div>
+                 <div class="panel-body">
+                 <table class="table table-striped">
+                  <thead>
+                    <tr>
+                     <th>ID</th>
+                     <th>Title</th>
+                     <th>Description</th>
+                     <th>Value</th>
+                    </tr>
+                  </thead>
+              <tbody>
+            {% for pos in bdgout.inits %}
+                <tr>
+                  <td>{{ pos.id }}</td>
+                  <td>{{ pos.title }}</td>
+                  <td>{{ pos.descr }}</td>
+                  <td>{{ pos.value }}</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                  <form role="form"
+                        action="/add-position/{{ bdgout.bdg.id }}/init"
+                        method="post">
+                    <td>
+                      <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-plus"></span>
+                      </button>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <label for="pos-title" class="sr-only">
+                          Positions Title
+                        </label>
+                        <input type="text"
+                          class="form-control"
+                          id="pos-title"
+                          name="title"
+                          placeholder="Title">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <label for="pos-descr" class="sr-only">
+                          Position Description
+                        </label>
+                        <input type="text"
+                          class="form-control"
+                          id="pos-descr"
+                          name="descr"
+                          placeholder="description">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <label for="pos-value" class="sr-only">
+                          Position Value
+                        </label>
+                        <input type="text"
+                          class="form-control"
+                          id="pos-value"
+                          name="value"
+                          placeholder="Value">
+                      </div>
+                    </td>
+                  </form>
+                  <td>
+                </tr>
+              </tbody>
+            </table>
+              </div>
+            </div>
+          </div>
+            <div class="col-lg-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <font size=6>
+                  Eventual entries
+                </font>
+              </div>
+              <div class="panel-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for pos in bdgout.eventuals %}
+                <tr>
+                  <td>{{ pos.id }}</td>
+                  <td>{{ pos.title }}</td>
+                  <td>{{ pos.descr }}</td>
+                  <td>{{ pos.value }} €</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                  <form role="form"
+                        action="/add-position/{{ bdgout.bdg.id }}/eventual"
+                        method="post">
+                    <td>
+                      <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-plus"></span>
+                      </button>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <label for="pos-title" class="sr-only">
+                          Positions Title
+                        </label>
+                        <input type="text"
+                          class="form-control"
+                          id="pos-title"
+                          name="title"
+                          placeholder="Title">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <label for="pos-descr" class="sr-only">
+                          Position Description
+                        </label>
+                        <input type="text"
+                          class="form-control"
+                          id="pos-descr"
+                          name="descr"
+                          placeholder="description">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <label for="pos-value" class="sr-only">
+                          Position Value
+                        </label>
+                        <div class="input-group">
+                          <input type="text"
+                            class="form-control"
+                            id="pos-value"
+                            name="value"
+                            width="20px"
+                            placeholder="Value">
+                        </div>
+                      </div>
+                    </td>
+                  </form>
+                </tr>
+              </tbody>
+            </table>
+              </div>
+            </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-info" role="alert">
+      Your do not have any budgets to manage.
+    </div>
+
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
