@@ -1,5 +1,5 @@
 (in-package :cl-user)
-(defpackage budget
+(defpackage :budget
   (:use :cl :lucerne
         :parse-number
         )
@@ -14,7 +14,7 @@
 (defapp pecunia
   :middlewares (clack.middleware.session:<clack-middleware-session>
                 (clack.middleware.static:<clack-middleware-static>
-                 :root (asdf:system-relative-pathname :budget #p"static/")
+                 :root (asdf:system-relative-pathname :pecunia2 #p"static/")
                  :path "/static/")))
 
 (defun main ()
@@ -24,7 +24,7 @@
 ;;; Templates
 
 (djula:add-template-directory
- (asdf:system-relative-pathname :budget #p"templates/"))
+ (asdf:system-relative-pathname :pecunia2 #p"templates/"))
 
 (defparameter +index+ (djula:compile-template* "index.html"))
 (defparameter +budgets+ (djula:compile-template* "budgets.html"))
